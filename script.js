@@ -62,11 +62,12 @@ const selangorPH = {
 };
 
 // ==========================================
-// 2. MONTH NAVIGATION
+// 2. MONTH NAVIGATION (Sync Multi-Buttons)
 // ==========================================
 function updateMonthDisplayUI() {
     const [y, m] = currentYearMonth.split('-');
-    document.getElementById('currentMonthDisplay').innerText = `${monthNamesEn[parseInt(m)-1]} ${y}`;
+    const displayStr = `${monthNamesEn[parseInt(m)-1]} ${y}`;
+    document.querySelectorAll('.monthDisplay').forEach(el => el.innerText = displayStr);
 }
 
 function handleMonthChange(offset) {
@@ -89,8 +90,9 @@ function handleMonthChange(offset) {
     updateMonthDisplayUI();
     generateTable();
 }
-document.getElementById('btnPrevMonth').addEventListener('click', () => handleMonthChange(-1));
-document.getElementById('btnNextMonth').addEventListener('click', () => handleMonthChange(1));
+
+document.querySelectorAll('.btnPrevMonth').forEach(btn => btn.addEventListener('click', () => handleMonthChange(-1)));
+document.querySelectorAll('.btnNextMonth').forEach(btn => btn.addEventListener('click', () => handleMonthChange(1)));
 function getDaysInMonth(year, month) { return new Date(year, month, 0).getDate(); }
 
 // ==========================================
@@ -227,16 +229,16 @@ async function calculateOTLogic() {
     }
 }
 
-document.getElementById('btnOpenOTModal').addEventListener('click', () => { 
-    otModal.classList.remove('hidden'); otModal.classList.add('flex'); 
-    
-    const [y, m] = currentYearMonth.split('-');
-    let nextM = parseInt(m) + 1;
-    let nextY = parseInt(y);
-    if(nextM > 12) { nextM = 1; nextY++; }
-    
-    document.getElementById('otPeriodText').innerText = `16 ${monthNamesEn[parseInt(m)-1]} ${y} - 15 ${monthNamesEn[nextM-1]} ${nextY}`;
-    calculateOTLogic();
+// Bind SEMUA butang OT (Mobile + Desktop)
+document.querySelectorAll('.btnOpenOT').forEach(btn => {
+    btn.addEventListener('click', () => { 
+        otModal.classList.remove('hidden'); otModal.classList.add('flex'); 
+        const [y, m] = currentYearMonth.split('-');
+        let nextM = parseInt(m) + 1; let nextY = parseInt(y);
+        if(nextM > 12) { nextM = 1; nextY++; }
+        document.getElementById('otPeriodText').innerText = `16 ${monthNamesEn[parseInt(m)-1]} ${y} - 15 ${monthNamesEn[nextM-1]} ${nextY}`;
+        calculateOTLogic();
+    });
 });
 
 const closeOT = () => { otModal.classList.add('hidden'); otModal.classList.remove('flex'); };
@@ -302,7 +304,13 @@ document.getElementById('btnSaveSettings').addEventListener('click', async () =>
 });
 
 const staffModal = document.getElementById('staffModal');
-document.getElementById('btnOpenStaffModal').addEventListener('click', () => { staffModal.classList.remove('hidden'); staffModal.classList.add('flex'); });
+
+// Bind SEMUA butang Staff (Mobile + Desktop)
+document.querySelectorAll('.btnOpenStaff').forEach(btn => {
+    btn.addEventListener('click', () => { 
+        staffModal.classList.remove('hidden'); staffModal.classList.add('flex'); 
+    });
+});
 document.getElementById('btnCloseStaffModal').addEventListener('click', () => { staffModal.classList.add('hidden'); staffModal.classList.remove('flex'); });
 
 document.getElementById('btnAddStaff').addEventListener('click', async () => {
@@ -587,8 +595,7 @@ document.addEventListener('click', (e) => {
 function closeShiftMenu() {
     const menu = document.getElementById('customShiftMenu');
     if(!menu) return;
-    menu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
-    menu.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
+    menu.classList.add('opacity-0', 'pointer-events-none');
     activeShiftCell = null;
     setTimeout(() => menu.classList.add('hidden'), 200);
 }
@@ -614,7 +621,6 @@ async function selectShiftValue(shiftVal) {
 }
 
 function attachEventListeners() {
-    // 1. SHIFT CELL CLICK
     document.querySelectorAll('.shift-cell').forEach(cell => {
         cell.addEventListener('click', (e) => {
             activeShiftCell = cell;
@@ -622,41 +628,36 @@ function attachEventListeners() {
             if(!menu) return;
             menu.classList.remove('hidden');
             
-            const rect = cell.getBoundingClientRect();
-            let top = rect.bottom + window.scrollY + 8;
-            let left = rect.left + window.scrollX;
-            
-            if (left + 280 > window.innerWidth) { left = window.innerWidth - 290; }
-            if (top + 250 > window.innerHeight + window.scrollY) { top = rect.top + window.scrollY - 260; }
-
-            menu.style.top = `${top}px`;
-            menu.style.left = `${left}px`;
+            // Logic for Desktop: Position it near the mouse click
+            if(window.innerWidth > 768) {
+                const rect = cell.getBoundingClientRect();
+                let top = rect.bottom + window.scrollY + 8;
+                let left = rect.left + window.scrollX;
+                if (left + 280 > window.innerWidth) { left = window.innerWidth - 290; }
+                if (top + 250 > window.innerHeight + window.scrollY) { top = rect.top + window.scrollY - 260; }
+                menu.style.top = `${top}px`;
+                menu.style.left = `${left}px`;
+            }
             
             setTimeout(() => {
-                menu.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
-                menu.classList.add('opacity-100', 'scale-100', 'pointer-events-auto');
+                menu.classList.remove('opacity-0', 'pointer-events-none');
             }, 10);
         });
     });
 
-    // 2. PH HOVER TOOLTIP
     const phTooltip = document.getElementById('phTooltip');
-    if(phTooltip) {
+    if(phTooltip && window.innerWidth > 768) { // Tooltip for desktop only
         document.querySelectorAll('.ph-hover-cell').forEach(cell => {
             cell.addEventListener('mouseenter', (e) => {
                 const phName = e.target.getAttribute('data-phname');
                 phTooltip.innerHTML = `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> ${phName}`;
                 phTooltip.classList.remove('hidden');
             });
-            
             cell.addEventListener('mousemove', (e) => {
                 phTooltip.style.left = `${e.pageX}px`;
                 phTooltip.style.top = `${e.pageY - 15}px`;
             });
-            
-            cell.addEventListener('mouseleave', () => {
-                phTooltip.classList.add('hidden');
-            });
+            cell.addEventListener('mouseleave', () => { phTooltip.classList.add('hidden'); });
         });
     }
 }

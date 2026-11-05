@@ -29,7 +29,7 @@
 .custom-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 /* =======================================
-   REKA BENTUK JADUAL (CLEAN UI)
+   REKA BENTUK JADUAL DESKTOP
    ======================================= */
 table { border-collapse: separate; border-spacing: 0; width: 100%; }
 th, td { 
@@ -44,7 +44,6 @@ th { background: rgba(255, 255, 255, 0.4); color: #334155; font-weight: 700; }
 td:first-child, th:first-child { border-left: none; }
 td:last-child, th:last-child { border-right: none; }
 
-/* Kelas Khas Jadual (Dipindahkan dari JS Inline Style) */
 .col-name-head { width: 140px; text-align: left; padding-left: 10px; }
 .col-day-head, .col-date-head { text-align: right; padding-right: 8px; }
 .col-staff-name { text-align: left; padding-left: 10px; font-weight: 800; }
@@ -72,7 +71,6 @@ td:last-child, th:last-child { border-right: none; }
     z-index: 10; position: relative; 
 }
 
-/* Skema Warna Syif */
 .shift- { background: transparent; box-shadow: none; }
 .shift-OH { background: #e9d5ff !important; color: #4c1d95 !important; }
 .shift-AM { background: #bbf7d0 !important; color: #14532d !important; }
@@ -99,24 +97,17 @@ td:last-child, th:last-child { border-right: none; }
    ======================================= */
 .staff-list-item, .ot-claim-card {
     display: flex; justify-content: space-between; align-items: center; 
-    padding: 14px 18px; 
-    font-size: 13px; 
-    background: rgba(255, 255, 255, 0.6); 
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    border-radius: 16px; 
-    margin-bottom: 12px; 
+    padding: 14px 18px; font-size: 13px; 
+    background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 16px; margin-bottom: 12px; 
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), inset 0 2px 4px rgba(255, 255, 255, 0.9); 
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease;
 }
 .staff-list-item:last-child, .ot-claim-card:last-child { margin-bottom: 0; }
 .staff-list-item:hover, .ot-claim-card:hover { 
-    background: rgba(255, 255, 255, 0.95); 
-    transform: translateY(-2px) scale(1.01); 
+    background: rgba(255, 255, 255, 0.95); transform: translateY(-2px) scale(1.01); 
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(255, 255, 255, 1); 
 }
-
 .staff-item-left { display: flex; align-items: center; gap: 16px; }
 
 .staff-badge-OH { background: #f3e8ff; color: #6b21a8; padding: 6px 12px; border-radius: 8px; font-weight: 800; font-size: 10px; border: 1px solid rgba(255,255,255,1); box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
