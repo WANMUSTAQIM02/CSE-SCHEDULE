@@ -2,23 +2,34 @@
    MOBILE.CSS - EXCLUSIVE MOBILE UI/UX GUI (MAX-WIDTH: 768PX)
    ============================================================ */
 
-/* 1. Global Safe Areas (Sokongan Notch iPhone) */
+/* 1. Global Safe Areas & Kunci Skrin (Elak tatalan melintang) */
 body {
-    padding: 12px !important;
-    padding-top: max(env(safe-area-inset-top), 15px) !important;
+    padding: 10px !important;
+    padding-top: max(env(safe-area-inset-top), 10px) !important;
     padding-bottom: max(env(safe-area-inset-bottom), 15px) !important;
-    overflow-x: hidden !important;
+    /* KUNCI: Mencegah body dari bergerak ke kiri/kanan */
+    overflow-x: hidden !important; 
+    width: 100vw !important;
+}
+
+/* KUNCI: Betulkan masalah margin mx-auto dari Tailwind */
+.max-w-\[1600px\].w-\[98\%\].mx-auto {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }
 
 /* 2. Header Card & Pembaikan Butang Bertindih */
 .bg-white\/70.backdrop-blur-2xl.border.border-white\/90.shadow-glass-3d.rounded-3xl.p-8.md\:p-10.mb-12 {
     /* Tambah padding atas yang tebal supaya butang terapung muat di dalam kad */
-    padding: 65px 20px 40px 20px !important; 
-    margin-bottom: 35px !important;
+    padding: 65px 15px 35px 15px !important; 
+    margin-bottom: 45px !important;
     border-radius: 28px !important;
+    /* KUNCI: Pastikan kotak header tidak melebih lebar skrin */
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
-/* Letakkan butang kemas di bucu atas kad, bukan di luar skrin */
 #btnOpenStaffModal {
     top: 15px !important;
     right: 15px !important;
@@ -39,59 +50,83 @@ h2.text-xl { font-size: 1.15rem !important; margin-bottom: 10px !important; }
 h3.text-base { font-size: 0.85rem !important; padding: 6px 12px !important; }
 .text-\[10px\].md\:text-xs.text-slate-400 { font-size: 8.5px !important; }
 
-/* 3. Pembaikan Penunjuk Bulan (Tidak Terkeluar Skrin) */
+/* 3. Pembaikan Penunjuk Bulan (Pusatkan di tengah bawah Header) */
 .absolute.-bottom-6.left-1\/2 {
     bottom: -24px !important;
-    width: 92% !important;
-    max-width: 320px !important;
+    width: auto !important; /* Biar kotak saiz sendiri */
+    /* KUNCI: Paksa ke tengah */
+    left: 50% !important; 
+    transform: translateX(-50%) !important;
 }
-.gap-6 { gap: 12px !important; } 
+/* Betulkan kotak dalam penunjuk bulan */
+.flex.items-center.gap-6.bg-white\/95 {
+    gap: 12px !important; 
+    padding: 6px 12px !important;
+} 
 #currentMonthDisplay { 
-    min-width: auto !important; 
-    width: 100% !important;
+    min-width: 110px !important; 
     font-size: 11px !important; 
 }
 
 /* ============================================================
    4. JADUAL MOBILE (STICKY COLUMN UX)
    ============================================================ */
-.bg-white\/70.backdrop-blur-2xl.p-5 {
-    padding: 12px !important;
+/* Pembungkus luaran jadual */
+.bg-white\/70.backdrop-blur-2xl.shadow-glass-3d.rounded-3xl.p-5.md\:p-8.mb-8 {
+    padding: 0 !important; /* Buang padding dalam supaya jadual penuh dari bucu ke bucu kotak */
     border-radius: 24px !important;
+    margin-bottom: 25px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important; /* Potong bayang jadual dalam yang terkeluar */
 }
-table { font-size: 10px !important; }
+
+/* KUNCI: Paksa kawasan yang boleh di-scroll ke kiri/kanan hanya PADA JADUAL, bukan skrin utama */
+.overflow-x-auto.custom-scrollbar {
+    overflow-x: auto !important;
+    width: 100% !important;
+    display: block !important;
+}
+
+table { font-size: 10px !important; border-collapse: collapse !important; }
+
+/* Lebar lajur hari (Date/Day) */
+th, td { padding: 4px !important; min-width: 50px !important; }
 
 /* Bekukan (Freeze) Lajur Nama supaya sentiasa nampak ketika swipe */
 th.col-name-head, 
 td.col-staff-name {
     position: sticky !important;
     left: 0 !important;
-    background: rgba(255, 255, 255, 0.95) !important;
+    background: rgba(255, 255, 255, 0.95) !important; /* Warna pejal sikit elak lutsinar yang buruk */
     backdrop-filter: blur(10px) !important;
     -webkit-backdrop-filter: blur(10px) !important;
     z-index: 20 !important;
-    box-shadow: 4px 0 10px -5px rgba(0,0,0,0.12) !important;
-    min-width: 100px !important;
-    max-width: 100px !important;
+    /* Bayang ke kanan untuk pisahkan dengan kotak hari yang di-scroll */
+    box-shadow: 4px 0 10px -5px rgba(0,0,0,0.12) !important; 
+    min-width: 90px !important;
+    max-width: 90px !important;
     white-space: normal !important; 
     line-height: 1.3 !important;
     padding-left: 8px !important;
     font-size: 10px !important;
+    border-right: 1px solid rgba(148, 163, 184, 0.1) !important; /* Garis nipis pemisah */
 }
 th.col-name-head { z-index: 21 !important; }
 
-/* Sentuhan Mesra Ibu Jari (Thumb Optimization) */
+/* Sentuhan Mesra Ibu Jari (Thumb Optimization) untuk Syif */
 .shift-cell {
     min-width: 44px !important;
     height: 44px !important;
     font-size: 10px !important;
     border-radius: 12px !important;
-    margin: 2px !important;
+    margin: 2px auto !important; /* 'auto' paksa kotak duduk tengah */
 }
 
-/* Sembunyikan lajur "No" pada mobile untuk jimat ruang */
+/* Sembunyikan lajur "No" dan "SHIFT" pada mobile untuk jimat ruang */
 tr th:first-child,
-tr td:first-child {
+tr td:first-child,
+.col-shift-label {
     display: none !important;
 }
 
@@ -103,10 +138,9 @@ tr td:first-child {
     bottom: 0 !important;
     left: 0 !important;
     top: auto !important;
-    /* Mulakan menu dari bawah skrin */
     transform: translateY(100%) !important;
-    width: 100% !important;
-    max-width: 100% !important;
+    width: 100vw !important; /* Penuhkan skrin telefon */
+    max-width: 100vw !important;
     border-radius: 30px 30px 0 0 !important;
     padding: 30px 20px 40px 20px !important;
     background: rgba(255, 255, 255, 0.92) !important;
@@ -115,12 +149,11 @@ tr td:first-child {
     box-shadow: 0 -10px 50px rgba(0,0,0,0.2) !important;
     transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
     opacity: 1 !important;
+    box-sizing: border-box !important;
 }
-/* Apabila aktif, luncurkan ke atas */
 #customShiftMenu:not(.hidden):not(.opacity-0) {
     transform: translateY(0) !important;
 }
-/* Garisan 'Grab Indicator' di atas Bottom Sheet */
 #customShiftMenu::before {
     content: '';
     position: absolute;
@@ -143,45 +176,30 @@ tr td:first-child {
    ============================================================ */
 #staffModal > div,
 #otModal > div {
-    max-width: 95% !important;
+    max-width: 92% !important;
     max-height: 85vh !important;
     border-radius: 32px !important;
 }
 
-/* Susunan Menegak untuk Senarai Staf */
 .staff-list-item, .ot-claim-card {
     flex-direction: column !important;
     align-items: flex-start !important;
     gap: 12px !important;
     padding: 16px !important;
 }
-.staff-item-left { 
-    width: 100% !important; 
-    gap: 10px !important; 
-    flex-wrap: wrap !important; 
-}
-.action-btn-red { 
-    width: 100% !important; 
-    text-align: center !important; 
-    padding: 12px !important; 
-}
-
-/* Form Input Responsif */
+.staff-item-left { width: 100% !important; gap: 10px !important; flex-wrap: wrap !important; }
+.action-btn-red { width: 100% !important; text-align: center !important; padding: 12px !important; }
 .flex-col.md\:flex-row { flex-direction: column !important; gap: 10px !important; }
 .glass-input, select.glass-input { width: 100% !important; height: 48px !important; }
 #btnAddStaff { width: 100% !important; padding: 14px !important; height: 48px !important; }
-
-/* Grid Tetapan Auto-Generate */
-.flex.justify-center.gap-4.bg-white\/60 {
-    flex-direction: column !important;
-    gap: 15px !important;
-}
-.flex-1.max-w-\[200px\] {
-    max-width: 100% !important;
-    width: 100% !important;
-}
+.flex.justify-center.gap-4.bg-white\/60 { flex-direction: column !important; gap: 15px !important; }
+.flex-1.max-w-\[200px\] { max-width: 100% !important; width: 100% !important; }
 
 /* 7. Susunan Petunjuk Warna (Colour Legend) */
+.bg-white\/70.backdrop-blur-2xl.border.border-white\/90.shadow-glass-3d.rounded-3xl.p-6.md\:p-8 {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
 .grid-cols-2 {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     gap: 15px 10px !important;
