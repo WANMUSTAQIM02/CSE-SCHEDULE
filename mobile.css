@@ -50,41 +50,45 @@ h2.text-xl { font-size: 1.15rem !important; margin-bottom: 10px !important; }
 h3.text-base { font-size: 0.85rem !important; padding: 6px 12px !important; }
 .text-\[10px\].md\:text-xs.text-slate-400 { font-size: 8.5px !important; }
 
-/* 3. Pembaikan Penunjuk Bulan (Nav Bar Bulan) */
-/* Bawa keluar kotak navigasi bulan dari dasar kad (bottom) supaya ia tidak terpotong */
-.absolute.-bottom-6.left-1\/2 {
-    position: relative !important;
-    bottom: auto !important;
-    left: auto !important;
-    transform: none !important;
+/* ============================================================
+   3. PEMBAIKAN NAV BAR BULAN (CENTERING MUTLAK)
+   ============================================================ */
+/* Wrapper lutsinar di luar kotak bulan */
+div.absolute.-bottom-6.left-1\/2.transform.-translate-x-1\/2 {
+    position: absolute !important;
+    bottom: -28px !important;
     
-    /* Jadikan ia block tersendiri di bawah teks Hospital Sungai Buloh */
+    /* KUNCI: Buang sistem Tailwind asal yang tolak kotak ke kanan */
+    left: 0 !important;
+    right: 0 !important;
+    transform: none !important; 
+    
+    /* Paksa kotak memanjang penuh dan susun isinya tepat di tengah */
+    width: 100% !important;
     display: flex !important;
     justify-content: center !important;
-    width: 100% !important;
-    margin-top: 25px !important; /* Jarakkan dari teks atas */
+    margin: 0 auto !important;
 }
 
-/* Betulkan kotak putih navigasi bulan itu sendiri */
-.flex.items-center.gap-6.bg-white\/95 {
-    gap: 15px !important; 
-    padding: 10px 15px !important;
-    width: 100% !important;
-    max-width: 280px !important; /* Hadkan lebar maksimum supaya kemas */
+/* Kotak putih navigasi bulan itu sendiri */
+div.absolute.-bottom-6.left-1\/2 > div {
+    width: 90% !important;
+    max-width: 280px !important;
+    padding: 8px 16px !important;
     justify-content: space-between !important;
+    gap: 15px !important;
     
-    /* Tingkatkan bayang-bayang supaya timbul (pop-out) */
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
-} 
-
-/* Teks bulan (cth: NOVEMBER 2026) */
-#currentMonthDisplay { 
-    min-width: 120px !important; 
-    font-size: 11px !important; 
-    text-align: center !important;
+    /* Tambah bayang supaya kotak pop-out di atas jadual */
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15) !important;
 }
 
-/* Besarkan sikit butang navigasi (kiri & kanan) untuk jari */
+/* Butang anak panah & Teks Bulan */
+#currentMonthDisplay { 
+    min-width: auto !important; 
+    font-size: 11.5px !important; 
+    text-align: center !important;
+    letter-spacing: 1px !important;
+}
 #btnPrevMonth, #btnNextMonth {
     width: 38px !important;
     height: 38px !important;
