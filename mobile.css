@@ -1,0 +1,189 @@
+/* ============================================================
+   MOBILE.CSS - EXCLUSIVE MOBILE UI/UX GUI (MAX-WIDTH: 768PX)
+   ============================================================ */
+
+/* 1. Global Safe Areas (Sokongan Notch iPhone) */
+body {
+    padding: 12px !important;
+    padding-top: max(env(safe-area-inset-top), 15px) !important;
+    padding-bottom: max(env(safe-area-inset-bottom), 15px) !important;
+    overflow-x: hidden !important;
+}
+
+/* 2. Header Card & Pembaikan Butang Bertindih */
+.bg-white\/70.backdrop-blur-2xl.border.border-white\/90.shadow-glass-3d.rounded-3xl.p-8.md\:p-10.mb-12 {
+    /* Tambah padding atas yang tebal supaya butang terapung muat di dalam kad */
+    padding: 65px 20px 40px 20px !important; 
+    margin-bottom: 35px !important;
+    border-radius: 28px !important;
+}
+
+/* Letakkan butang kemas di bucu atas kad, bukan di luar skrin */
+#btnOpenStaffModal {
+    top: 15px !important;
+    right: 15px !important;
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 14px !important;
+}
+#btnOpenOTModal {
+    top: 15px !important;
+    right: 65px !important;
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 14px !important;
+}
+
+/* Tipografi Header */
+h2.text-xl { font-size: 1.15rem !important; margin-bottom: 10px !important; }
+h3.text-base { font-size: 0.85rem !important; padding: 6px 12px !important; }
+.text-\[10px\].md\:text-xs.text-slate-400 { font-size: 8.5px !important; }
+
+/* 3. Pembaikan Penunjuk Bulan (Tidak Terkeluar Skrin) */
+.absolute.-bottom-6.left-1\/2 {
+    bottom: -24px !important;
+    width: 92% !important;
+    max-width: 320px !important;
+}
+.gap-6 { gap: 12px !important; } 
+#currentMonthDisplay { 
+    min-width: auto !important; 
+    width: 100% !important;
+    font-size: 11px !important; 
+}
+
+/* ============================================================
+   4. JADUAL MOBILE (STICKY COLUMN UX)
+   ============================================================ */
+.bg-white\/70.backdrop-blur-2xl.p-5 {
+    padding: 12px !important;
+    border-radius: 24px !important;
+}
+table { font-size: 10px !important; }
+
+/* Bekukan (Freeze) Lajur Nama supaya sentiasa nampak ketika swipe */
+th.col-name-head, 
+td.col-staff-name {
+    position: sticky !important;
+    left: 0 !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    z-index: 20 !important;
+    box-shadow: 4px 0 10px -5px rgba(0,0,0,0.12) !important;
+    min-width: 100px !important;
+    max-width: 100px !important;
+    white-space: normal !important; 
+    line-height: 1.3 !important;
+    padding-left: 8px !important;
+    font-size: 10px !important;
+}
+th.col-name-head { z-index: 21 !important; }
+
+/* Sentuhan Mesra Ibu Jari (Thumb Optimization) */
+.shift-cell {
+    min-width: 44px !important;
+    height: 44px !important;
+    font-size: 10px !important;
+    border-radius: 12px !important;
+    margin: 2px !important;
+}
+
+/* Sembunyikan lajur "No" pada mobile untuk jimat ruang */
+tr th:first-child,
+tr td:first-child {
+    display: none !important;
+}
+
+/* ============================================================
+   5. MENU SYIF (DITUKAR MENJADI 'iOS BOTTOM SHEET')
+   ============================================================ */
+#customShiftMenu {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    top: auto !important;
+    /* Mulakan menu dari bawah skrin */
+    transform: translateY(100%) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 30px 30px 0 0 !important;
+    padding: 30px 20px 40px 20px !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(25px) !important;
+    -webkit-backdrop-filter: blur(25px) !important;
+    box-shadow: 0 -10px 50px rgba(0,0,0,0.2) !important;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+    opacity: 1 !important;
+}
+/* Apabila aktif, luncurkan ke atas */
+#customShiftMenu:not(.hidden):not(.opacity-0) {
+    transform: translateY(0) !important;
+}
+/* Garisan 'Grab Indicator' di atas Bottom Sheet */
+#customShiftMenu::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 45px;
+    height: 5px;
+    background: rgba(148, 163, 184, 0.4);
+    border-radius: 10px;
+}
+#shiftMenuGrid button {
+    height: 48px !important; 
+    font-size: 11px !important;
+    border-radius: 14px !important;
+}
+
+/* ============================================================
+   6. PENGURUSAN MODAL (STAFF & OT)
+   ============================================================ */
+#staffModal > div,
+#otModal > div {
+    max-width: 95% !important;
+    max-height: 85vh !important;
+    border-radius: 32px !important;
+}
+
+/* Susunan Menegak untuk Senarai Staf */
+.staff-list-item, .ot-claim-card {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    padding: 16px !important;
+}
+.staff-item-left { 
+    width: 100% !important; 
+    gap: 10px !important; 
+    flex-wrap: wrap !important; 
+}
+.action-btn-red { 
+    width: 100% !important; 
+    text-align: center !important; 
+    padding: 12px !important; 
+}
+
+/* Form Input Responsif */
+.flex-col.md\:flex-row { flex-direction: column !important; gap: 10px !important; }
+.glass-input, select.glass-input { width: 100% !important; height: 48px !important; }
+#btnAddStaff { width: 100% !important; padding: 14px !important; height: 48px !important; }
+
+/* Grid Tetapan Auto-Generate */
+.flex.justify-center.gap-4.bg-white\/60 {
+    flex-direction: column !important;
+    gap: 15px !important;
+}
+.flex-1.max-w-\[200px\] {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* 7. Susunan Petunjuk Warna (Colour Legend) */
+.grid-cols-2 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 15px 10px !important;
+}
+.badge { width: 32px !important; height: 24px !important; font-size: 9.5px !important; }
